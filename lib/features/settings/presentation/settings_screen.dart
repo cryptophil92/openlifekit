@@ -19,28 +19,20 @@ class SettingsScreen extends ConsumerWidget {
             title: Text('Langue'),
             subtitle: Text('Francais et anglais.'),
           ),
-          RadioListTile<AppThemePreference>(
-            value: AppThemePreference.useSystem,
-            groupValue: settings.themePreference,
-            onChanged: (value) => _setTheme(ref, value),
-            title: const Text('Theme systeme'),
+          _ThemeTile(
+            title: 'Theme systeme',
+            selected: settings.themePreference == AppThemePreference.useSystem,
+            onTap: () => _setTheme(ref, AppThemePreference.useSystem),
           ),
-          RadioListTile<AppThemePreference>(
-            value: AppThemePreference.useLight,
-            groupValue: settings.themePreference,
-            onChanged: (value) => _setTheme(ref, value),
-            title: const Text('Theme clair'),
+          _ThemeTile(
+            title: 'Theme clair',
+            selected: settings.themePreference == AppThemePreference.useLight,
+            onTap: () => _setTheme(ref, AppThemePreference.useLight),
           ),
-          RadioListTile<AppThemePreference>(
-            value: AppThemePreference.useDark,
-            groupValue: settings.themePreference,
-            onChanged: (value) => _setTheme(ref, value),
-            title: const Text('Theme sombre'),
-          ),
-          const ListTile(
-            leading: Icon(Icons.file_upload_outlined),
-            title: Text('Sauvegarde locale'),
-            subtitle: Text('JSON local prevu.'),
+          _ThemeTile(
+            title: 'Theme sombre',
+            selected: settings.themePreference == AppThemePreference.useDark,
+            onTap: () => _setTheme(ref, AppThemePreference.useDark),
           ),
           const ListTile(
             leading: Icon(Icons.info_outline),
@@ -52,13 +44,30 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  void _setTheme(WidgetRef ref, AppThemePreference? value) {
-    if (value == null) {
-      return;
-    }
-
+  void _setTheme(WidgetRef ref, AppThemePreference value) {
     final current = ref.read(appSettingsProvider);
     ref.read(appSettingsProvider.notifier).state =
         current.copyWith(themePreference: value);
+  }
+}
+
+class _ThemeTile extends StatelessWidget {
+  const _ThemeTile({
+    required this.title,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String title;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(selected ? Icons.check_circle : Icons.circle_outlined),
+      title: Text(title),
+      onTap: onTap,
+    );
   }
 }
