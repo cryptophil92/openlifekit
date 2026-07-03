@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:open_life_kit/core/routing/app_routes.dart';
+import 'package:open_life_kit/features/settings/application/app_settings_actions.dart';
 import 'package:open_life_kit/features/settings/application/app_settings_providers.dart';
 
 class OnboardingScreen extends ConsumerWidget {
@@ -43,7 +44,7 @@ class OnboardingScreen extends ConsumerWidget {
                   onPressed: () {
                     final current = ref.read(appSettingsProvider);
                     ref.read(appSettingsProvider.notifier).state =
-                        current.copyWith(onboardingDone: true);
+                        AppSettingsActions.withIntroAccepted(current);
                     context.go(AppRoutes.home);
                   },
                   child: const Text('Commencer'),
