@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:open_life_kit/core/constants/app_constants.dart';
+import 'package:open_life_kit/core/routing/app_routes.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -9,6 +11,13 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppConstants.appName),
+        actions: <Widget>[
+          IconButton(
+            tooltip: 'Parametres',
+            onPressed: () => context.go(AppRoutes.settings),
+            icon: const Icon(Icons.settings_outlined),
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -19,27 +28,39 @@ class HomeScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Centralisez vos informations essentielles, sans compte et sans collecte de données.',
+            'Centralisez vos informations essentielles, sans compte et sans collecte.',
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(height: 24),
           _HomeActionCard(
-            title: 'Fiche d’urgence',
-            description: 'Préparer une fiche lisible et partageable uniquement avec les champs validés.',
+            title: 'Fiche urgence',
+            description: 'Voir les informations utiles en situation urgente.',
             icon: Icons.emergency_outlined,
-            onTap: () {},
+            onTap: () => context.go(AppRoutes.emergencyCard),
+          ),
+          _HomeActionCard(
+            title: 'Profil',
+            description: 'Renseigner les informations personnelles facultatives.',
+            icon: Icons.person_outline,
+            onTap: () => context.go(AppRoutes.profile),
           ),
           _HomeActionCard(
             title: 'Contacts importants',
-            description: 'Famille, médecin, assurance, école, travail ou autre contact utile.',
+            description: 'Famille, medecin, assurance, ecole, travail ou autre.',
             icon: Icons.contacts_outlined,
-            onTap: () {},
+            onTap: () => context.go(AppRoutes.contacts),
           ),
           _HomeActionCard(
-            title: 'Documents critiques',
-            description: 'Suivre les références, dates d’expiration et rappels importants.',
+            title: 'Documents',
+            description: 'Suivre les references, dates et rappels importants.',
             icon: Icons.description_outlined,
-            onTap: () {},
+            onTap: () => context.go(AppRoutes.documents),
+          ),
+          _HomeActionCard(
+            title: 'Checklists',
+            description: 'Voyage, papiers perdus, hospitalisation ou tache perso.',
+            icon: Icons.checklist_outlined,
+            onTap: () => context.go(AppRoutes.checklists),
           ),
         ],
       ),
