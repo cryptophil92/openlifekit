@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:open_life_kit/features/settings/application/app_settings_actions.dart';
 import 'package:open_life_kit/features/settings/application/app_settings_providers.dart';
 import 'package:open_life_kit/features/settings/domain/app_theme_preference.dart';
 
@@ -47,7 +48,7 @@ class SettingsScreen extends ConsumerWidget {
   void _setTheme(WidgetRef ref, AppThemePreference value) {
     final current = ref.read(appSettingsProvider);
     ref.read(appSettingsProvider.notifier).state =
-        current.copyWith(themePreference: value);
+        AppSettingsActions.withTheme(current, value);
   }
 }
 
