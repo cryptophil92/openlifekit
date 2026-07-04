@@ -47,7 +47,7 @@ void main() {
     expect(find.text('Aucune note medicale.'), findsOneWidget);
   });
 
-  testWidgets('contacts screen adds a contact through the provider', (
+  testWidgets('contacts screen adds a contact through the form', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(
@@ -62,7 +62,34 @@ void main() {
     await tester.tap(find.text('Ajouter'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Contact 2'), findsOneWidget);
+    await tester.enterText(find.bySemanticsLabel('Nom du contact'), 'Jane Doe');
+    await tester.enterText(find.bySemanticsLabel('Lien'), 'Soeur');
+    await tester.enterText(find.bySemanticsLabel('Telephone'), '0600000000');
+    await tester.enterText(find.bySemanticsLabel('Email'), 'jane@example.com');
+    await tester.tap(find.text('Enregistrer'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Jane Doe'), findsOneWidget);
+    expect(find.text('Soeur - 0600000000 - jane@example.com'), findsOneWidget);
+  });
+
+  testWidgets('contacts screen validates required name', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(home: ContactsScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Ajouter'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Enregistrer'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Champ obligatoire'), findsOneWidget);
+    expect(find.text('Nouveau contact'), findsOneWidget);
   });
 
   testWidgets('contacts screen removes a contact through the provider', (
