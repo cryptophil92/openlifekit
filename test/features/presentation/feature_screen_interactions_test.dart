@@ -194,7 +194,7 @@ void main() {
     expect(find.text('Piece importante'), findsNothing);
   });
 
-  testWidgets('reminders screen adds a reminder through the provider', (
+  testWidgets('reminders screen adds a reminder through the form', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(
@@ -207,6 +207,10 @@ void main() {
     expect(find.text('Controle document'), findsOneWidget);
 
     await tester.tap(find.text('Ajouter'));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.bySemanticsLabel('Titre du rappel'), 'Rappel 2');
+    await tester.tap(find.text('Enregistrer'));
     await tester.pumpAndSettle();
 
     expect(find.text('Rappel 2'), findsOneWidget);
