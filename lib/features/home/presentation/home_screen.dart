@@ -52,9 +52,15 @@ class HomeScreen extends StatelessWidget {
           ),
           _HomeActionCard(
             title: 'Documents',
-            description: 'Suivre les references, dates et rappels importants.',
+            description: 'Suivre les references et dates importantes.',
             icon: Icons.description_outlined,
             onTap: () => context.go(AppRoutes.documents),
+          ),
+          _HomeActionCard(
+            title: 'Rappels',
+            description: 'Voir les echeances locales importantes.',
+            icon: Icons.notifications_active_outlined,
+            onTap: () => context.go(AppRoutes.reminders),
           ),
           _HomeActionCard(
             title: 'Checklists',
