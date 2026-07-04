@@ -23,27 +23,33 @@ class DocumentsScreen extends ConsumerWidget {
         label: const Text('Ajouter'),
       ),
       body: state.when(
-        data: (List<ImportantDocument> items) => ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: items.length,
-          itemBuilder: (BuildContext context, int index) {
-            final ImportantDocument item = items[index];
-            return Card(
-              child: ListTile(
-                leading: const Icon(Icons.description_outlined),
-                title: Text(item.title),
-                subtitle: Text(_documentDetails(item)),
-                trailing: IconButton(
-                  tooltip: 'Retirer ${item.title}',
-                  onPressed: () {
-                    _confirmRemoveDocument(context, ref, item);
-                  },
-                  icon: const Icon(Icons.close),
+        data: (List<ImportantDocument> items) {
+          if (items.isEmpty) {
+            return const Center(child: Text('Aucun document important.'));
+          }
+
+          return ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: items.length,
+            itemBuilder: (BuildContext context, int index) {
+              final ImportantDocument item = items[index];
+              return Card(
+                child: ListTile(
+                  leading: const Icon(Icons.description_outlined),
+                  title: Text(item.title),
+                  subtitle: Text(_documentDetails(item)),
+                  trailing: IconButton(
+                    tooltip: 'Retirer ${item.title}',
+                    onPressed: () {
+                      _confirmRemoveDocument(context, ref, item);
+                    },
+                    icon: const Icon(Icons.close),
+                  ),
                 ),
-              ),
-            );
-          },
-        ),
+              );
+            },
+          );
+        },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (Object error, StackTrace stackTrace) => const Center(
           child: Text('Erreur de chargement.'),
