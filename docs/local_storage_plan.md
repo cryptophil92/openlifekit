@@ -2,11 +2,13 @@
 
 ## Goal
 
-Prepare local-first data access before adding native integrations.
+Prepare local-first data access before adding durable native storage.
 
 ## Current status
 
-The code now has domain models, data source contracts and temporary in-memory data sources. This keeps the app testable before Android and iOS folders are generated.
+The code now has domain models, data source contracts, temporary in-memory data sources and Riverpod providers for feature data access.
+
+Android is generated and committed. iOS remains a macOS/Xcode step.
 
 ## MVP entities
 
@@ -28,16 +30,19 @@ The code now has domain models, data source contracts and temporary in-memory da
 - In-memory data source for checklists.
 - In-memory data source for profile.
 - Unit tests for each in-memory data source.
+- Riverpod feature data providers.
+- Provider override tests for contacts, documents, checklists, profile and reminders.
 
 ## Implementation sequence
 
-1. Add data contracts.
-2. Add temporary local implementations for UI development.
-3. Wire feature screens to temporary data sources.
-4. Generate Android and iOS platform folders.
-5. Add Drift and SQLite in a dedicated pull request.
-6. Add migration tests.
-7. Add backup tests.
+1. Add data contracts. Done.
+2. Add temporary local implementations for UI development. Done.
+3. Generate Android platform folder. Done.
+4. Wire feature screens to temporary data sources.
+5. Generate iOS platform folder from a Mac.
+6. Add Drift and SQLite in a dedicated pull request.
+7. Add migration tests.
+8. Add backup tests.
 
 ## Drift handoff notes
 
