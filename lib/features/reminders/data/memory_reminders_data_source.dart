@@ -21,4 +21,9 @@ class MemoryRemindersDataSource implements RemindersDataSource {
   Future<void> saveReminder(LocalReminder reminder) async {
     _remindersById[reminder.id] = reminder;
   }
+
+  @override
+  Future<void> removeReminder(String id) async {
+    _remindersById.remove(id);
+  }
 }
