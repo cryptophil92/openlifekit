@@ -23,6 +23,10 @@ void main() {
       destinationText: 'Piece importante',
     ),
     const _NavigationCase(
+      sourceText: 'Rappels',
+      destinationText: 'Controle document',
+    ),
+    const _NavigationCase(
       sourceText: 'Checklists',
       destinationText: 'Depart en voyage',
     ),
