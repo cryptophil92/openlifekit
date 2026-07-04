@@ -167,7 +167,7 @@ void main() {
     expect(find.text('Nouveau document'), findsOneWidget);
   });
 
-  testWidgets('documents screen removes a document through the provider', (
+  testWidgets('documents screen confirms document removal', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(
@@ -180,6 +180,15 @@ void main() {
     expect(find.text('Piece importante'), findsOneWidget);
 
     await tester.tap(find.byTooltip('Retirer Piece importante'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Retirer le document ?'), findsOneWidget);
+    expect(
+      find.text('Le document Piece importante sera retire de la liste locale.'),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.text('Retirer'));
     await tester.pumpAndSettle();
 
     expect(find.text('Piece importante'), findsNothing);
