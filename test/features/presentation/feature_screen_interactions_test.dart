@@ -4,9 +4,27 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:open_life_kit/features/checklists/presentation/checklists_screen.dart';
 import 'package:open_life_kit/features/contacts/presentation/contacts_screen.dart';
 import 'package:open_life_kit/features/documents/presentation/documents_screen.dart';
+import 'package:open_life_kit/features/profile/presentation/profile_screen.dart';
 import 'package:open_life_kit/features/reminders/presentation/reminders_screen.dart';
 
 void main() {
+  testWidgets('profile screen saves a local profile through the provider', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(home: ProfileScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextFormField).first, 'Jane');
+    await tester.tap(find.text('Enregistrer localement'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Profil enregistre localement.'), findsOneWidget);
+  });
+
   testWidgets('contacts screen adds a contact through the provider', (
     WidgetTester tester,
   ) async {
