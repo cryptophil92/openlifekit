@@ -33,7 +33,9 @@ void main() {
       await tester.tap(find.text('Commencer'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text(item.sourceText));
+      final finder = find.text(item.sourceText);
+      await tester.scrollUntilVisible(finder, 300);
+      await tester.tap(finder);
       await tester.pumpAndSettle();
 
       expect(find.text(item.destinationText), findsOneWidget);
