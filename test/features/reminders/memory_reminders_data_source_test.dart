@@ -50,5 +50,33 @@ void main() {
       expect(reminders.single.title, 'New reminder');
       expect(reminders.single.type, ReminderType.appointment);
     });
+
+    test('removes reminders by id', () async {
+      final DateTime date = DateTime.utc(2026, 1, 1);
+      final MemoryRemindersDataSource dataSource = MemoryRemindersDataSource(
+        <LocalReminder>[
+          LocalReminder(
+            id: '1',
+            title: 'Reminder one',
+            type: ReminderType.personalTask,
+            scheduledAt: date,
+          ),
+          LocalReminder(
+            id: '2',
+            title: 'Reminder two',
+            type: ReminderType.appointment,
+            scheduledAt: date,
+          ),
+        ],
+      );
+
+      await dataSource.removeReminder('1');
+
+      final List<LocalReminder> reminders = await dataSource.loadReminders();
+
+      expect(reminders, hasLength(1));
+      expect(reminders.single.id, '2');
+      expect(reminders.single.title, 'Reminder two');
+    });
   });
 }
