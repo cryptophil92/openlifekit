@@ -36,7 +36,7 @@ class DocumentsScreen extends ConsumerWidget {
                 trailing: IconButton(
                   tooltip: 'Retirer ${item.title}',
                   onPressed: () {
-                    _removeDocument(ref, item.id);
+                    _confirmRemoveDocument(context, ref, item);
                   },
                   icon: const Icon(Icons.close),
                 ),
@@ -78,6 +78,39 @@ class DocumentsScreen extends ConsumerWidget {
         );
 
     ref.invalidate(documentsProvider);
+  }
+
+  Future<void> _confirmRemoveDocument(
+    BuildContext context,
+    WidgetRef ref,
+    ImportantDocument document,
+  ) async {
+    final bool confirmed = await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Retirer le document ?'),
+            content: Text(
+              'Le document ${document.title} sera retire de la liste locale.',
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('Annuler'),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text('Retirer'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+
+    if (!confirmed) {
+      return;
+    }
+
+    await _removeDocument(ref, document.id);
   }
 
   Future<void> _removeDocument(WidgetRef ref, String id) async {
