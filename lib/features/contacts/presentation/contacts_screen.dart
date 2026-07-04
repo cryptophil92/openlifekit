@@ -25,7 +25,11 @@ class ContactsScreen extends ConsumerWidget {
       body: contacts.when(
         data: (List<ImportantContact> items) => _ContactsList(
           items: items,
-          onRemove: (String id) => _removeContact(ref, id),
+          onRemove: (ImportantContact contact) => _confirmRemoveContact(
+            context,
+            ref,
+            contact,
+          ),
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (Object error, StackTrace stackTrace) => const Center(
@@ -64,6 +68,39 @@ class ContactsScreen extends ConsumerWidget {
     ref.invalidate(contactsProvider);
   }
 
+  Future<void> _confirmRemoveContact(
+    BuildContext context,
+    WidgetRef ref,
+    ImportantContact contact,
+  ) async {
+    final bool confirmed = await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Retirer le contact ?'),
+            content: Text(
+              'Le contact ${contact.displayName} sera retire de la liste locale.',
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('Annuler'),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text('Retirer'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+
+    if (!confirmed) {
+      return;
+    }
+
+    await _removeContact(ref, contact.id);
+  }
+
   Future<void> _removeContact(WidgetRef ref, String id) async {
     await ref.read(contactsDataSourceProvider).removeContact(id);
     ref.invalidate(contactsProvider);
@@ -74,7 +111,7 @@ class _ContactsList extends StatelessWidget {
   const _ContactsList({required this.items, required this.onRemove});
 
   final List<ImportantContact> items;
-  final ValueChanged<String> onRemove;
+  final ValueChanged<ImportantContact> onRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +137,7 @@ class _ContactsList extends StatelessWidget {
                   const Icon(Icons.phone_forwarded_outlined),
                 IconButton(
                   tooltip: 'Retirer ${contact.displayName}',
-                  onPressed: () => onRemove(contact.id),
+                  onPressed: () => onRemove(contact),
                   icon: const Icon(Icons.close),
                 ),
               ],
