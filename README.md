@@ -33,15 +33,18 @@ The first public MVP focuses on a clean, maintainable foundation:
 ## Current implementation status
 
 - Flutter app shell.
+- Android platform folder generated and committed.
 - Material 3 theme.
 - GoRouter navigation.
 - Onboarding screen.
 - Home screen.
 - Feature placeholder screens.
 - Domain models for profile, contacts, documents, reminders, checklists and shared card preferences.
+- Data source contracts and temporary in-memory data sources.
+- Riverpod provider layer for feature data sources.
 - Privacy payload filtering helper.
 - Initial unit and widget tests.
-- GitHub Actions CI.
+- GitHub Actions CI with Android debug APK build.
 
 ## Tech stack
 
@@ -59,7 +62,7 @@ Validated target stack:
 - path_provider
 - flutter_local_notifications
 
-The bootstrap keeps `pubspec.yaml` minimal until generated Android/iOS folders and native integrations are added.
+The bootstrap keeps `pubspec.yaml` minimal while platform folders and native integrations are added in controlled steps.
 
 ## Repository structure
 
@@ -75,6 +78,7 @@ test/
 integration_test/
 docs/
 .github/
+android/
 ```
 
 ## Getting started
