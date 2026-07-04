@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:open_life_kit/features/checklists/presentation/checklists_screen.dart';
 import 'package:open_life_kit/features/contacts/presentation/contacts_screen.dart';
 import 'package:open_life_kit/features/documents/presentation/documents_screen.dart';
+import 'package:open_life_kit/features/emergency_card/presentation/emergency_card_screen.dart';
 import 'package:open_life_kit/features/profile/presentation/profile_screen.dart';
 import 'package:open_life_kit/features/reminders/presentation/reminders_screen.dart';
 
@@ -23,6 +24,27 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Profil enregistre localement.'), findsOneWidget);
+  });
+
+  testWidgets('emergency card shows provider data and field toggles', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(home: EmergencyCardScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Carte rapide'), findsOneWidget);
+    expect(find.text('Contact proche'), findsOneWidget);
+    expect(find.text('Champs actifs: 2'), findsOneWidget);
+
+    await tester.tap(find.text('Inclure les notes'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Champs actifs: 3'), findsOneWidget);
+    expect(find.text('Aucune note medicale.'), findsOneWidget);
   });
 
   testWidgets('contacts screen adds a contact through the provider', (
