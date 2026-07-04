@@ -75,5 +75,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Controle document'), findsNothing);
+    expect(find.text('Aucun rappel local.'), findsOneWidget);
   });
 }
