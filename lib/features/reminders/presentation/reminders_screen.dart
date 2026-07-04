@@ -21,38 +21,44 @@ class RemindersScreen extends ConsumerWidget {
         label: const Text('Ajouter'),
       ),
       body: state.when(
-        data: (List<LocalReminder> items) => ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: items.length,
-          itemBuilder: (BuildContext context, int index) {
-            final LocalReminder reminder = items[index];
-            return Card(
-              child: ListTile(
-                leading: Icon(
-                  reminder.isCompleted
-                      ? Icons.check_circle_outline
-                      : Icons.notifications_active_outlined,
+        data: (List<LocalReminder> items) {
+          if (items.isEmpty) {
+            return const Center(child: Text('Aucun rappel local.'));
+          }
+
+          return ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: items.length,
+            itemBuilder: (BuildContext context, int index) {
+              final LocalReminder reminder = items[index];
+              return Card(
+                child: ListTile(
+                  leading: Icon(
+                    reminder.isCompleted
+                        ? Icons.check_circle_outline
+                        : Icons.notifications_active_outlined,
+                  ),
+                  title: Text(reminder.title),
+                  subtitle: Text(reminder.body ?? _typeLabel(reminder.type)),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      if (reminder.isPastDue)
+                        const Icon(Icons.warning_amber_outlined),
+                      IconButton(
+                        tooltip: 'Retirer ${reminder.title}',
+                        onPressed: () {
+                          _confirmRemoveReminder(context, ref, reminder);
+                        },
+                        icon: const Icon(Icons.close),
+                      ),
+                    ],
+                  ),
                 ),
-                title: Text(reminder.title),
-                subtitle: Text(reminder.body ?? _typeLabel(reminder.type)),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    if (reminder.isPastDue)
-                      const Icon(Icons.warning_amber_outlined),
-                    IconButton(
-                      tooltip: 'Retirer ${reminder.title}',
-                      onPressed: () {
-                        _confirmRemoveReminder(context, ref, reminder);
-                      },
-                      icon: const Icon(Icons.close),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
+              );
+            },
+          );
+        },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (Object error, StackTrace stackTrace) => const Center(
           child: Text('Erreur de chargement.'),
