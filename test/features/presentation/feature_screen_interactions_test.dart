@@ -192,6 +192,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Piece importante'), findsNothing);
+    expect(find.text('Aucun document important.'), findsOneWidget);
   });
 
   testWidgets('reminders screen adds a reminder through the form', (
