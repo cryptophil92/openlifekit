@@ -4,7 +4,16 @@ import 'package:open_life_kit/features/contacts/data/memory_contacts_data_source
 import 'package:open_life_kit/features/contacts/domain/important_contact.dart';
 
 final contactsDataSourceProvider = Provider<ContactsDataSource>(
-  (ref) => MemoryContactsDataSource(),
+  (ref) => MemoryContactsDataSource(
+    const <ImportantContact>[
+      ImportantContact(
+        id: 'contact-close',
+        category: ContactCategory.other,
+        displayName: 'Contact proche',
+        phone: 'Telephone a ajouter',
+      ),
+    ],
+  ),
 );
 
 final contactsProvider = FutureProvider<List<ImportantContact>>((ref) {
