@@ -45,5 +45,30 @@ void main() {
       expect(documents.single.title, 'New document');
       expect(documents.single.type, DocumentType.work);
     });
+
+    test('forgets documents by id', () async {
+      final MemoryDocumentsDataSource dataSource = MemoryDocumentsDataSource(
+        const <ImportantDocument>[
+          ImportantDocument(
+            id: '1',
+            title: 'Passport',
+            type: DocumentType.identity,
+          ),
+          ImportantDocument(
+            id: '2',
+            title: 'Insurance',
+            type: DocumentType.insurance,
+          ),
+        ],
+      );
+
+      await dataSource.forgetDocument('1');
+
+      final List<ImportantDocument> documents = await dataSource.loadDocuments();
+
+      expect(documents, hasLength(1));
+      expect(documents.single.id, '2');
+      expect(documents.single.title, 'Insurance');
+    });
   });
 }
