@@ -65,6 +65,25 @@ void main() {
     expect(find.text('Contact 2'), findsOneWidget);
   });
 
+  testWidgets('contacts screen removes a contact through the provider', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(home: ContactsScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Contact proche'), findsOneWidget);
+
+    await tester.tap(find.byTooltip('Retirer Contact proche'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Contact proche'), findsNothing);
+    expect(find.text('Aucun contact important.'), findsOneWidget);
+  });
+
   testWidgets('documents screen adds a document through the provider', (
     WidgetTester tester,
   ) async {
@@ -81,6 +100,24 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Document 2'), findsOneWidget);
+  });
+
+  testWidgets('documents screen removes a document through the provider', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(home: DocumentsScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Piece importante'), findsOneWidget);
+
+    await tester.tap(find.byTooltip('Retirer Piece importante'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Piece importante'), findsNothing);
   });
 
   testWidgets('reminders screen adds a reminder through the provider', (
