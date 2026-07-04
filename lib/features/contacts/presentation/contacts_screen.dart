@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:open_life_kit/core/validation/text_validators.dart';
 import 'package:open_life_kit/features/contacts/application/contacts_providers.dart';
 import 'package:open_life_kit/features/contacts/domain/important_contact.dart';
 
@@ -16,7 +17,7 @@ class ContactsScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Contacts importants')),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          _addPlaceholderContact(ref);
+          _openContactForm(context, ref);
         },
         icon: const Icon(Icons.add),
         label: const Text('Ajouter'),
@@ -34,7 +35,16 @@ class ContactsScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _addPlaceholderContact(WidgetRef ref) async {
+  Future<void> _openContactForm(BuildContext context, WidgetRef ref) async {
+    final _ContactFormResult? result = await showDialog<_ContactFormResult>(
+      context: context,
+      builder: (BuildContext context) => const _ContactFormDialog(),
+    );
+
+    if (result == null) {
+      return;
+    }
+
     final List<ImportantContact> contacts = await ref.read(
       contactsProvider.future,
     );
@@ -44,8 +54,10 @@ class ContactsScreen extends ConsumerWidget {
           ImportantContact(
             id: 'contact-$nextIndex',
             category: ContactCategory.other,
-            displayName: 'Contact $nextIndex',
-            phone: 'Telephone a completer',
+            displayName: result.displayName,
+            relationship: result.relationship,
+            phone: result.phone,
+            email: result.email,
           ),
         );
 
@@ -116,4 +128,114 @@ class _ContactsList extends StatelessWidget {
   bool _hasValue(String? value) {
     return value != null && value.trim().isNotEmpty;
   }
+}
+
+class _ContactFormDialog extends StatefulWidget {
+  const _ContactFormDialog();
+
+  @override
+  State<_ContactFormDialog> createState() => _ContactFormDialogState();
+}
+
+class _ContactFormDialogState extends State<_ContactFormDialog> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _relationshipController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _relationshipController.dispose();
+    _phoneController.dispose();
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Nouveau contact'),
+      content: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              TextFormField(
+                controller: _nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Nom du contact',
+                ),
+                textInputAction: TextInputAction.next,
+                validator: TextValidators.requiredText,
+              ),
+              TextFormField(
+                controller: _relationshipController,
+                decoration: const InputDecoration(labelText: 'Lien'),
+                textInputAction: TextInputAction.next,
+              ),
+              TextFormField(
+                controller: _phoneController,
+                decoration: const InputDecoration(labelText: 'Telephone'),
+                keyboardType: TextInputType.phone,
+                textInputAction: TextInputAction.next,
+              ),
+              TextFormField(
+                controller: _emailController,
+                decoration: const InputDecoration(labelText: 'Email'),
+                keyboardType: TextInputType.emailAddress,
+                validator: TextValidators.optionalEmail,
+              ),
+            ],
+          ),
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Annuler'),
+        ),
+        FilledButton(
+          onPressed: _submit,
+          child: const Text('Enregistrer'),
+        ),
+      ],
+    );
+  }
+
+  void _submit() {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    Navigator.of(context).pop(
+      _ContactFormResult(
+        displayName: _nameController.text.trim(),
+        relationship: _emptyToNull(_relationshipController.text),
+        phone: _emptyToNull(_phoneController.text),
+        email: _emptyToNull(_emailController.text),
+      ),
+    );
+  }
+
+  String? _emptyToNull(String value) {
+    final String trimmed = value.trim();
+    return trimmed.isEmpty ? null : trimmed;
+  }
+}
+
+class _ContactFormResult {
+  const _ContactFormResult({
+    required this.displayName,
+    required this.relationship,
+    required this.phone,
+    required this.email,
+  });
+
+  final String displayName;
+  final String? relationship;
+  final String? phone;
+  final String? email;
 }
