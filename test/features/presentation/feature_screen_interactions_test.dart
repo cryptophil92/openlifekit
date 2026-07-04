@@ -1,0 +1,65 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:open_life_kit/features/checklists/presentation/checklists_screen.dart';
+import 'package:open_life_kit/features/contacts/presentation/contacts_screen.dart';
+import 'package:open_life_kit/features/documents/presentation/documents_screen.dart';
+
+void main() {
+  testWidgets('contacts screen adds a contact through the provider', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(home: ContactsScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Contact proche'), findsOneWidget);
+
+    await tester.tap(find.text('Ajouter'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Contact 2'), findsOneWidget);
+  });
+
+  testWidgets('documents screen adds a document through the provider', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(home: DocumentsScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Piece importante'), findsOneWidget);
+
+    await tester.tap(find.text('Ajouter'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Document 2'), findsOneWidget);
+  });
+
+  testWidgets('checklists screen toggles an item through the provider', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(home: ChecklistsScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Depart en voyage'), findsOneWidget);
+    expect(find.text('0/3 fait'), findsWidgets);
+
+    await tester.tap(find.text('Depart en voyage'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Verifier les documents'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('1/3 fait'), findsOneWidget);
+  });
+}
