@@ -26,3 +26,7 @@ Thumbs.db
 *.keystore
 *.jks
 key.properties
+
+# Flutter generated localizations
+/lib/l10n/app_localizations.dart
+/lib/l10n/app_localizations_*.dart
