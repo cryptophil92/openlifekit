@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:open_life_kit/app/app.dart';
+import 'package:open_life_kit/app/router.dart';
+import 'package:open_life_kit/core/routing/app_routes.dart';
 
 void main() {
   final List<_NavigationCase> cases = <_NavigationCase>[
@@ -28,6 +30,7 @@ void main() {
 
   for (final _NavigationCase item in cases) {
     testWidgets('home opens ${item.sourceText}', (WidgetTester tester) async {
+      appRouter.go(AppRoutes.onboarding);
       await tester.pumpWidget(const ProviderScope(child: OpenLifeKitApp()));
 
       await tester.tap(find.text('Commencer'));
@@ -43,6 +46,7 @@ void main() {
   }
 
   testWidgets('home opens settings from app bar', (WidgetTester tester) async {
+    appRouter.go(AppRoutes.onboarding);
     await tester.pumpWidget(const ProviderScope(child: OpenLifeKitApp()));
 
     await tester.tap(find.text('Commencer'));
