@@ -14,6 +14,13 @@ class DocumentsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Documents')),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          _addSampleDocument(ref);
+        },
+        icon: const Icon(Icons.add),
+        label: const Text('Ajouter'),
+      ),
       body: state.when(
         data: (List<ImportantDocument> items) => ListView.builder(
           padding: const EdgeInsets.all(16),
@@ -35,5 +42,23 @@ class DocumentsScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _addSampleDocument(WidgetRef ref) async {
+    final List<ImportantDocument> items = await ref.read(
+      documentsProvider.future,
+    );
+    final int nextIndex = items.length + 1;
+
+    await ref.read(documentsDataSourceProvider).saveDocument(
+          ImportantDocument(
+            id: 'document-$nextIndex',
+            title: 'Document $nextIndex',
+            type: DocumentType.other,
+            notes: 'Type a definir',
+          ),
+        );
+
+    ref.invalidate(documentsProvider);
   }
 }
