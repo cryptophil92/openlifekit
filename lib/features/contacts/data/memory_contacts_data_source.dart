@@ -2,7 +2,9 @@ import 'package:open_life_kit/features/contacts/data/contacts_data_source.dart';
 import 'package:open_life_kit/features/contacts/domain/important_contact.dart';
 
 class MemoryContactsDataSource implements ContactsDataSource {
-  MemoryContactsDataSource([List<ImportantContact> initialContacts = const <ImportantContact>[]]) {
+  MemoryContactsDataSource([
+    List<ImportantContact> initialContacts = const <ImportantContact>[],
+  ]) {
     for (final ImportantContact contact in initialContacts) {
       _contactsById[contact.id] = contact;
     }
@@ -18,5 +20,10 @@ class MemoryContactsDataSource implements ContactsDataSource {
   @override
   Future<void> saveContact(ImportantContact contact) async {
     _contactsById[contact.id] = contact;
+  }
+
+  @override
+  Future<void> removeContact(String id) async {
+    _contactsById.remove(id);
   }
 }
