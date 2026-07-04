@@ -9,7 +9,7 @@
 - [x] Local profile, contacts, documents, reminders and checklists models.
 - [x] Data source contracts and temporary in-memory data sources.
 - [x] Riverpod provider layer for feature data sources.
-- [ ] Feature screen wiring to data providers.
+- [x] Feature screen wiring to data providers.
 - [ ] Emergency card and QR code.
 - [ ] Important contacts CRUD.
 - [ ] Important documents metadata CRUD.
