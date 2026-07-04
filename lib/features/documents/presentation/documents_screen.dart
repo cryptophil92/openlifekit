@@ -32,6 +32,13 @@ class DocumentsScreen extends ConsumerWidget {
                 leading: const Icon(Icons.description_outlined),
                 title: Text(item.title),
                 subtitle: Text(item.notes ?? item.type.name),
+                trailing: IconButton(
+                  tooltip: 'Retirer ${item.title}',
+                  onPressed: () {
+                    _removeDocument(ref, item.id);
+                  },
+                  icon: const Icon(Icons.close),
+                ),
               ),
             );
           },
@@ -59,6 +66,11 @@ class DocumentsScreen extends ConsumerWidget {
           ),
         );
 
+    ref.invalidate(documentsProvider);
+  }
+
+  Future<void> _removeDocument(WidgetRef ref, String id) async {
+    await ref.read(documentsDataSourceProvider).forgetDocument(id);
     ref.invalidate(documentsProvider);
   }
 }
