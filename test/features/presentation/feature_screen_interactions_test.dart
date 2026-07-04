@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:open_life_kit/features/checklists/presentation/checklists_screen.dart';
 import 'package:open_life_kit/features/contacts/presentation/contacts_screen.dart';
 import 'package:open_life_kit/features/documents/presentation/documents_screen.dart';
+import 'package:open_life_kit/features/reminders/presentation/reminders_screen.dart';
 
 void main() {
   testWidgets('contacts screen adds a contact through the provider', (
@@ -40,6 +41,24 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Document 2'), findsOneWidget);
+  });
+
+  testWidgets('reminders screen adds a reminder through the provider', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(home: RemindersScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Controle document'), findsOneWidget);
+
+    await tester.tap(find.text('Ajouter'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Rappel 2'), findsOneWidget);
   });
 
   testWidgets('checklists screen toggles an item through the provider', (
