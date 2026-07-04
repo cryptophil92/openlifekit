@@ -92,7 +92,7 @@ void main() {
     expect(find.text('Nouveau contact'), findsOneWidget);
   });
 
-  testWidgets('contacts screen removes a contact through the provider', (
+  testWidgets('contacts screen confirms contact removal', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(
@@ -105,6 +105,15 @@ void main() {
     expect(find.text('Contact proche'), findsOneWidget);
 
     await tester.tap(find.byTooltip('Retirer Contact proche'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Retirer le contact ?'), findsOneWidget);
+    expect(
+      find.text('Le contact Contact proche sera retire de la liste locale.'),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.text('Retirer'));
     await tester.pumpAndSettle();
 
     expect(find.text('Contact proche'), findsNothing);
