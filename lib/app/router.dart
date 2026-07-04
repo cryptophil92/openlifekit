@@ -7,6 +7,7 @@ import 'package:open_life_kit/features/emergency_card/presentation/emergency_car
 import 'package:open_life_kit/features/home/presentation/home_screen.dart';
 import 'package:open_life_kit/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:open_life_kit/features/profile/presentation/profile_screen.dart';
+import 'package:open_life_kit/features/reminders/presentation/reminders_screen.dart';
 import 'package:open_life_kit/features/settings/presentation/settings_screen.dart';
 
 GoRouter buildAppRouter({String initialLocation = AppRoutes.onboarding}) {
@@ -42,6 +43,11 @@ GoRouter buildAppRouter({String initialLocation = AppRoutes.onboarding}) {
         path: AppRoutes.documents,
         name: 'documents',
         builder: (context, state) => const DocumentsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.reminders,
+        name: 'reminders',
+        builder: (context, state) => const RemindersScreen(),
       ),
       GoRoute(
         path: AppRoutes.checklists,
