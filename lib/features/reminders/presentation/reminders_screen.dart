@@ -35,9 +35,20 @@ class RemindersScreen extends ConsumerWidget {
                 ),
                 title: Text(reminder.title),
                 subtitle: Text(reminder.body ?? _typeLabel(reminder.type)),
-                trailing: reminder.isPastDue
-                    ? const Icon(Icons.warning_amber_outlined)
-                    : null,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    if (reminder.isPastDue)
+                      const Icon(Icons.warning_amber_outlined),
+                    IconButton(
+                      tooltip: 'Retirer ${reminder.title}',
+                      onPressed: () {
+                        _confirmRemoveReminder(context, ref, reminder);
+                      },
+                      icon: const Icon(Icons.close),
+                    ),
+                  ],
+                ),
               ),
             );
           },
@@ -73,6 +84,44 @@ class RemindersScreen extends ConsumerWidget {
           ),
         );
 
+    ref.invalidate(remindersProvider);
+  }
+
+  Future<void> _confirmRemoveReminder(
+    BuildContext context,
+    WidgetRef ref,
+    LocalReminder reminder,
+  ) async {
+    final bool confirmed = await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Retirer le rappel ?'),
+            content: Text(
+              'Le rappel ${reminder.title} sera retire de la liste locale.',
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('Annuler'),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text('Retirer'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+
+    if (!confirmed) {
+      return;
+    }
+
+    await _removeReminder(ref, reminder.id);
+  }
+
+  Future<void> _removeReminder(WidgetRef ref, String id) async {
+    await ref.read(remindersDataSourceProvider).removeReminder(id);
     ref.invalidate(remindersProvider);
   }
 
