@@ -28,7 +28,9 @@ class ChecklistsScreen extends ConsumerWidget {
                     CheckboxListTile(
                       value: item.isDone,
                       title: Text(item.title),
-                      onChanged: null,
+                      onChanged: (bool? value) {
+                        _saveItemState(ref, checklist, item.id, value ?? false);
+                      },
                     ),
                 ],
               ),
@@ -41,5 +43,31 @@ class ChecklistsScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _saveItemState(
+    WidgetRef ref,
+    Checklist checklist,
+    String itemId,
+    bool isDone,
+  ) async {
+    final List<ChecklistItem> updatedItems = checklist.items
+        .map(
+          (ChecklistItem item) => item.id == itemId
+              ? item.copyWith(isDone: isDone)
+              : item,
+        )
+        .toList(growable: false);
+
+    await ref.read(checklistsDataSourceProvider).saveChecklist(
+          Checklist(
+            id: checklist.id,
+            title: checklist.title,
+            description: checklist.description,
+            items: updatedItems,
+          ),
+        );
+
+    ref.invalidate(checklistsProvider);
   }
 }
