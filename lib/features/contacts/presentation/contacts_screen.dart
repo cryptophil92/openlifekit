@@ -22,7 +22,10 @@ class ContactsScreen extends ConsumerWidget {
         label: const Text('Ajouter'),
       ),
       body: contacts.when(
-        data: (List<ImportantContact> items) => _ContactsList(items: items),
+        data: (List<ImportantContact> items) => _ContactsList(
+          items: items,
+          onRemove: (String id) => _removeContact(ref, id),
+        ),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (Object error, StackTrace stackTrace) => const Center(
           child: Text('Impossible de charger les contacts.'),
@@ -48,12 +51,18 @@ class ContactsScreen extends ConsumerWidget {
 
     ref.invalidate(contactsProvider);
   }
+
+  Future<void> _removeContact(WidgetRef ref, String id) async {
+    await ref.read(contactsDataSourceProvider).removeContact(id);
+    ref.invalidate(contactsProvider);
+  }
 }
 
 class _ContactsList extends StatelessWidget {
-  const _ContactsList({required this.items});
+  const _ContactsList({required this.items, required this.onRemove});
 
   final List<ImportantContact> items;
+  final ValueChanged<String> onRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +81,18 @@ class _ContactsList extends StatelessWidget {
             leading: const Icon(Icons.person_outline),
             title: Text(contact.displayName),
             subtitle: Text(_contactDetails(contact)),
-            trailing: contact.hasQuickAction
-                ? const Icon(Icons.phone_forwarded_outlined)
-                : null,
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                if (contact.hasQuickAction)
+                  const Icon(Icons.phone_forwarded_outlined),
+                IconButton(
+                  tooltip: 'Retirer ${contact.displayName}',
+                  onPressed: () => onRemove(contact.id),
+                  icon: const Icon(Icons.close),
+                ),
+              ],
+            ),
           ),
         );
       },
