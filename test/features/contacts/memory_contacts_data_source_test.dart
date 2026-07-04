@@ -45,5 +45,30 @@ void main() {
       expect(contacts.single.category, ContactCategory.doctor);
       expect(contacts.single.displayName, 'Doctor Doe');
     });
+
+    test('removes contacts by id', () async {
+      final MemoryContactsDataSource dataSource = MemoryContactsDataSource(
+        const <ImportantContact>[
+          ImportantContact(
+            id: '1',
+            category: ContactCategory.family,
+            displayName: 'Jane Doe',
+          ),
+          ImportantContact(
+            id: '2',
+            category: ContactCategory.doctor,
+            displayName: 'Doctor Doe',
+          ),
+        ],
+      );
+
+      await dataSource.removeContact('1');
+
+      final List<ImportantContact> contacts = await dataSource.loadContacts();
+
+      expect(contacts, hasLength(1));
+      expect(contacts.single.id, '2');
+      expect(contacts.single.displayName, 'Doctor Doe');
+    });
   });
 }
