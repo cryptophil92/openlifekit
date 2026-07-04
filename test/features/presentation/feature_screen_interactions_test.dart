@@ -111,7 +111,7 @@ void main() {
     expect(find.text('Aucun contact important.'), findsOneWidget);
   });
 
-  testWidgets('documents screen adds a document through the provider', (
+  testWidgets('documents screen adds a document through the form', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(
@@ -126,7 +126,36 @@ void main() {
     await tester.tap(find.text('Ajouter'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Document 2'), findsOneWidget);
+    await tester.enterText(
+      find.bySemanticsLabel('Titre du document'),
+      'Passeport Jane',
+    );
+    await tester.enterText(find.bySemanticsLabel('Reference'), 'AA123456');
+    await tester.enterText(find.bySemanticsLabel('Notes'), 'Copie scannee');
+    await tester.tap(find.text('Enregistrer'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Passeport Jane'), findsOneWidget);
+    expect(find.text('other - AA123456 - Copie scannee'), findsOneWidget);
+  });
+
+  testWidgets('documents screen validates required title', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(home: DocumentsScreen()),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Ajouter'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Enregistrer'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Champ obligatoire'), findsOneWidget);
+    expect(find.text('Nouveau document'), findsOneWidget);
   });
 
   testWidgets('documents screen removes a document through the provider', (
