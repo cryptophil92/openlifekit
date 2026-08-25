@@ -2,7 +2,7 @@
 
 OpenLifeKit is an open source, privacy-first and offline-first mobile application for Android and iOS.
 
-It helps people keep essential everyday and emergency information locally on their phone: emergency profile, important contacts, critical document metadata, expiration reminders, practical checklists, secure export/import foundations and a shareable emergency card with QR code.
+It helps people keep essential everyday and emergency information locally on their phone: emergency profile, important contacts, critical document metadata, expiration reminders, practical checklists, local backup foundations and a shareable card with QR code.
 
 ## Product principles
 
@@ -12,7 +12,7 @@ It helps people keep essential everyday and emergency information locally on the
 - No tracking.
 - Local-first storage.
 - Offline-first UX.
-- Explicit consent before sharing or exporting data.
+- Explicit consent before sharing or backing up data.
 - No sensitive data in logs.
 - Clear path toward local encryption.
 
@@ -22,15 +22,33 @@ The first public MVP focuses on a clean, maintainable foundation:
 
 1. Onboarding explaining local data and privacy model.
 2. Optional user profile.
-3. Emergency card with explicit field-sharing preferences.
+3. Shared card with explicit field preferences.
 4. Important contacts.
 5. Important document metadata with expiration dates.
 6. Local reminders.
 7. Practical checklists.
-8. Local JSON export/import with schema versioning.
+8. Local JSON backup and restore with schema versioning.
 9. Settings, privacy information and data deletion.
 
+## Current implementation status
+
+- Flutter app shell.
+- Android platform folder generated and committed.
+- Material 3 theme.
+- GoRouter navigation.
+- Onboarding screen.
+- Home screen.
+- Feature placeholder screens.
+- Domain models for profile, contacts, documents, reminders, checklists and shared card preferences.
+- Data source contracts and temporary in-memory data sources.
+- Riverpod provider layer for feature data sources.
+- Privacy payload filtering helper.
+- Initial unit and widget tests.
+- GitHub Actions CI with Android debug APK build.
+
 ## Tech stack
+
+Validated target stack:
 
 - Flutter stable
 - Dart
@@ -39,9 +57,12 @@ The first public MVP focuses on a clean, maintainable foundation:
 - GoRouter
 - Drift / SQLite
 - flutter_secure_storage
-- intl
 - qr_flutter
+- file_picker
+- path_provider
 - flutter_local_notifications
+
+The bootstrap keeps `pubspec.yaml` minimal while platform folders and native integrations are added in controlled steps.
 
 ## Repository structure
 
@@ -57,6 +78,7 @@ test/
 integration_test/
 docs/
 .github/
+android/
 ```
 
 ## Getting started
@@ -68,11 +90,24 @@ flutter test
 flutter run
 ```
 
+## Native platform generation
+
+Read [docs/local_setup.md](docs/local_setup.md).
+
 ## Local verification
 
 ```bash
 ./scripts/verify.sh
 ```
+
+## Documentation
+
+- [Product specification](docs/product_spec.md)
+- [Architecture](docs/architecture.md)
+- [Roadmap](docs/roadmap.md)
+- [MVP execution plan](docs/mvp_execution_plan.md)
+- [Quality plan](docs/quality_plan.md)
+- [Security model](docs/security_model.md)
 
 ## Security and privacy
 
@@ -82,10 +117,6 @@ Read:
 
 - [Security policy](SECURITY.md)
 - [Security model](docs/security_model.md)
-
-## Roadmap
-
-See [docs/roadmap.md](docs/roadmap.md).
 
 ## License
 

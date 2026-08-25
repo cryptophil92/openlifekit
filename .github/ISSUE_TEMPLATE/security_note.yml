@@ -1,0 +1,15 @@
+name: Security note
+description: Report a non-sensitive security concern
+title: "security: "
+labels: ["security"]
+body:
+  - type: markdown
+    attributes:
+      value: "Do not disclose exploit details publicly. Use private vulnerability reporting when possible."
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Provide a high-level, non-sensitive description.
+    validations:
+      required: true
