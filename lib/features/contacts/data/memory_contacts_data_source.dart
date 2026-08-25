@@ -10,7 +10,8 @@ class MemoryContactsDataSource implements ContactsDataSource {
     }
   }
 
-  final Map<String, ImportantContact> _contactsById = <String, ImportantContact>{};
+  final Map<String, ImportantContact> _contactsById =
+      <String, ImportantContact>{};
 
   @override
   Future<List<ImportantContact>> loadContacts() async {

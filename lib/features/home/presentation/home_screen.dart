@@ -40,13 +40,15 @@ class HomeScreen extends StatelessWidget {
           ),
           _HomeActionCard(
             title: 'Profil',
-            description: 'Renseigner les informations personnelles facultatives.',
+            description:
+                'Renseigner les informations personnelles facultatives.',
             icon: Icons.person_outline,
             onTap: () => context.go(AppRoutes.profile),
           ),
           _HomeActionCard(
             title: 'Contacts importants',
-            description: 'Famille, medecin, assurance, ecole, travail ou autre.',
+            description:
+                'Famille, medecin, assurance, ecole, travail ou autre.',
             icon: Icons.contacts_outlined,
             onTap: () => context.go(AppRoutes.contacts),
           ),
@@ -64,7 +66,8 @@ class HomeScreen extends StatelessWidget {
           ),
           _HomeActionCard(
             title: 'Checklists',
-            description: 'Voyage, papiers perdus, hospitalisation ou tache perso.',
+            description:
+                'Voyage, papiers perdus, hospitalisation ou tache perso.',
             icon: Icons.checklist_outlined,
             onTap: () => context.go(AppRoutes.checklists),
           ),

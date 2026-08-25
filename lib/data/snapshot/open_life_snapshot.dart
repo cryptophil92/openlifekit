@@ -24,8 +24,10 @@ class OpenLifeSnapshot {
       'schemaVersion': AppConstants.schemaVersion,
       'createdAt': createdAt.toIso8601String(),
       'profile': profile.toJson(),
-      'contacts': contacts.map((ImportantContact item) => item.toJson()).toList(),
-      'documents': documents.map((ImportantDocument item) => item.toJson()).toList(),
+      'contacts':
+          contacts.map((ImportantContact item) => item.toJson()).toList(),
+      'documents':
+          documents.map((ImportantDocument item) => item.toJson()).toList(),
       'checklists': checklists.map((Checklist item) => item.toJson()).toList(),
     };
   }

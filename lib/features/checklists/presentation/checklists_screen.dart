@@ -22,7 +22,8 @@ class ChecklistsScreen extends ConsumerWidget {
               child: ExpansionTile(
                 leading: const Icon(Icons.checklist_outlined),
                 title: Text(checklist.title),
-                subtitle: Text('${checklist.completedCount}/${checklist.items.length} fait'),
+                subtitle: Text(
+                    '${checklist.completedCount}/${checklist.items.length} fait'),
                 children: <Widget>[
                   for (final ChecklistItem item in checklist.items)
                     CheckboxListTile(
@@ -53,9 +54,8 @@ class ChecklistsScreen extends ConsumerWidget {
   ) async {
     final List<ChecklistItem> updatedItems = checklist.items
         .map(
-          (ChecklistItem item) => item.id == itemId
-              ? item.copyWith(isDone: isDone)
-              : item,
+          (ChecklistItem item) =>
+              item.id == itemId ? item.copyWith(isDone: isDone) : item,
         )
         .toList(growable: false);
 

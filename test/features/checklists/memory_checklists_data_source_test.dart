@@ -22,7 +22,8 @@ void main() {
     });
 
     test('saves and replaces checklists by id', () async {
-      final MemoryChecklistsDataSource dataSource = MemoryChecklistsDataSource();
+      final MemoryChecklistsDataSource dataSource =
+          MemoryChecklistsDataSource();
 
       await dataSource.saveChecklist(
         const Checklist(

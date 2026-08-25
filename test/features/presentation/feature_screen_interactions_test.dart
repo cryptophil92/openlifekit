@@ -210,7 +210,8 @@ void main() {
     await tester.tap(find.text('Ajouter'));
     await tester.pumpAndSettle();
 
-    await tester.enterText(find.bySemanticsLabel('Titre du rappel'), 'Rappel 2');
+    await tester.enterText(
+        find.bySemanticsLabel('Titre du rappel'), 'Rappel 2');
     await tester.tap(find.text('Enregistrer'));
     await tester.pumpAndSettle();
 

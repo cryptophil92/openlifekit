@@ -1,7 +1,8 @@
 class TextValidators {
   const TextValidators._();
 
-  static String? requiredText(String? value, {String message = 'Champ obligatoire'}) {
+  static String? requiredText(String? value,
+      {String message = 'Champ obligatoire'}) {
     if (value == null || value.trim().isEmpty) {
       return message;
     }
