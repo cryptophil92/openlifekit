@@ -9,7 +9,8 @@ class EmergencyCardScreen extends ConsumerStatefulWidget {
   const EmergencyCardScreen({super.key});
 
   @override
-  ConsumerState<EmergencyCardScreen> createState() => _EmergencyCardScreenState();
+  ConsumerState<EmergencyCardScreen> createState() =>
+      _EmergencyCardScreenState();
 }
 
 class _EmergencyCardScreenState extends ConsumerState<EmergencyCardScreen> {

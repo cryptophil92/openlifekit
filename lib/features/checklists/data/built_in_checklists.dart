@@ -10,9 +10,11 @@ class BuiltInChecklists {
         title: 'Depart en voyage',
         description: 'Avant un trajet ou des vacances.',
         items: <ChecklistItem>[
-          ChecklistItem(id: 'travel-documents', title: 'Verifier les documents'),
+          ChecklistItem(
+              id: 'travel-documents', title: 'Verifier les documents'),
           ChecklistItem(id: 'travel-keys', title: 'Prevoir cles et acces'),
-          ChecklistItem(id: 'travel-health', title: 'Preparer sante et traitements'),
+          ChecklistItem(
+              id: 'travel-health', title: 'Preparer sante et traitements'),
         ],
       ),
       Checklist(
@@ -21,7 +23,8 @@ class BuiltInChecklists {
         description: 'Informations utiles en cas de besoin.',
         items: <ChecklistItem>[
           ChecklistItem(id: 'medical-card', title: 'Fiche urgence accessible'),
-          ChecklistItem(id: 'medical-contact', title: 'Contact proche disponible'),
+          ChecklistItem(
+              id: 'medical-contact', title: 'Contact proche disponible'),
           ChecklistItem(id: 'medical-treatment', title: 'Traitements verifies'),
         ],
       ),

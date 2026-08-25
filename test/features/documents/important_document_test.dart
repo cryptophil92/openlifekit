@@ -23,7 +23,8 @@ void main() {
         reminderEnabled: true,
       );
 
-      final ImportantDocument parsed = ImportantDocument.fromJson(document.toJson());
+      final ImportantDocument parsed =
+          ImportantDocument.fromJson(document.toJson());
 
       expect(parsed.id, 'doc-2');
       expect(parsed.type, DocumentType.other);

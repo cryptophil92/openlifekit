@@ -51,7 +51,8 @@ class EmergencyCardPreferences {
       includeAllergies: json['includeAllergies'] as bool? ?? true,
       includeMedications: json['includeMedications'] as bool? ?? true,
       includeMedicalNotes: json['includeMedicalNotes'] as bool? ?? false,
-      includeEmergencyContacts: json['includeEmergencyContacts'] as bool? ?? true,
+      includeEmergencyContacts:
+          json['includeEmergencyContacts'] as bool? ?? true,
       hideSensitiveByDefault: json['hideSensitiveByDefault'] as bool? ?? true,
     );
   }

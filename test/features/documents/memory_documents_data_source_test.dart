@@ -15,7 +15,8 @@ void main() {
         ],
       );
 
-      final List<ImportantDocument> documents = await dataSource.loadDocuments();
+      final List<ImportantDocument> documents =
+          await dataSource.loadDocuments();
 
       expect(documents, hasLength(1));
       expect(documents.single.title, 'Passport');
@@ -39,7 +40,8 @@ void main() {
         ),
       );
 
-      final List<ImportantDocument> documents = await dataSource.loadDocuments();
+      final List<ImportantDocument> documents =
+          await dataSource.loadDocuments();
 
       expect(documents, hasLength(1));
       expect(documents.single.title, 'New document');
@@ -64,7 +66,8 @@ void main() {
 
       await dataSource.forgetDocument('1');
 
-      final List<ImportantDocument> documents = await dataSource.loadDocuments();
+      final List<ImportantDocument> documents =
+          await dataSource.loadDocuments();
 
       expect(documents, hasLength(1));
       expect(documents.single.id, '2');
